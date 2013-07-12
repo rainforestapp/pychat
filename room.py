@@ -22,7 +22,9 @@ class Room(object):
 room = Room()
 
 daemon=Pyro4.Daemon()                 # make a Pyro daemon
-uri=daemon.register(room)   # register the greeting object as a Pyro object
+ns=Pyro4.locateNS()                   # find the name server
+uri=daemon.register(room)             # register the greeting object as a Pyro object
+ns.register("room", uri)  # register the object with a name in the name server
 
 print "Ready. Object uri =", uri      # print the uri so we can use it in the client later
 daemon.requestLoop() 
