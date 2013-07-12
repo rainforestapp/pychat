@@ -1,11 +1,10 @@
 from pydht import DHT
-host1, port1 = "192.168.0.164", 3000
-dht1 = DHT(host1, port1)
-host2, port2 = '192.168.0.6', 3001
-dht2 = DHT(host2, port2, boot_host=host1, port1)
-# OUT:   File "<input>", line 1
-# OUT: SyntaxError: non-keyword arg after keyword arg
-dht2 = DHT(host2, port2, boot_host=host1, boot_port=port1)
-dht1["test"] = "Hello world"
-dht2["test"]
+
+host, port = '192.168.0.6', 3000
+dht = DHT(host, port, boot_host='192.168.0.164', 3000)
+
+dht = DHT(host, port, boot_host=host, boot_port=port)
+
+dht["test"] = "Hello world"
+dht["test"]
 # OUT: u'Hello world'
