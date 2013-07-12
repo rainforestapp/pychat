@@ -1,22 +1,26 @@
 import Pyro4
+import uuid
+import hashlib
 
 class Room(object):
-    users = []
-
+    users = {}
     inbox = {}
-
     msg = []
 
     def add_me(self, name):
-        if name not in self.users:
-            self.users.append(name)
-            return "Hello, {0}. Added.\n".format(name)
+        if not self.users.has_key(name):
+            user_uuid = uuid.uuid1()
+            self.users[name] = user_uuid
+            return user_uuid
         else:
             return "User already exists!"
 
-    def log_off(self, name):
-        if name in self.users:
-            self.users.remove(name)
+    def log_off(self, name, uuid):
+        if self.users.has_key(name):
+            if self.users[name] == uuid:
+                self.users.pop(name)
+            else:
+                return "Supplied uuid does not match!"
         return "Logged off"
 
     def get_users(self):
@@ -36,11 +40,16 @@ class Room(object):
             self.inbox[user].append(msg)
         return "Sent"
 
-    def get_my_msg(self, name):
-        return self.inbox[name]
+    def get_my_msg(self, name, uuid):
+        if self.users.has_key(name):
+            if str(self.users[name]) == str(uuid):
+                return self.inbox[name]
+            else:
+                return "Supplied uuid does not match!"
 
 room = Room()
 
+Pyro4.config.HMAC_KEY = 'Nikhil'
 daemon=Pyro4.Daemon()                 # make a Pyro daemon
 ns=Pyro4.locateNS()                   # find the name server
 uri=daemon.register(room)             # register the greeting object as a Pyro object
