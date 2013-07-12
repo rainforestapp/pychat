@@ -1,7 +1,7 @@
 from pydht import DHT
-host1, port1 = "localhost", 3000
+host1, port1 = "192.168.0.164", 3000
 dht1 = DHT(host1, port1)
-host2, port2 = 'localhost', 3001
+host2, port2 = '192.168.0.6', 3001
 dht2 = DHT(host2, port2, boot_host=host1, port1)
 # OUT:   File "<input>", line 1
 # OUT: SyntaxError: non-keyword arg after keyword arg
