@@ -50,7 +50,7 @@ class Room(object):
 room = Room()
 
 Pyro4.config.HMAC_KEY = 'Nikhil'
-daemon=Pyro4.Daemon()                 # make a Pyro daemon
+daemon=Pyro4.Daemon(host='192.168.0.6')                # make a Pyro daemon
 ns=Pyro4.locateNS()                   # find the name server
 uri=daemon.register(room)             # register the greeting object as a Pyro object
 ns.register("room", uri)  # register the object with a name in the name server
